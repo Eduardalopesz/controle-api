@@ -1,11 +1,7 @@
 from fastapi import FastAPI
+from api.routers import user_router, movimentacao_router
 
 app = FastAPI()
 
-@app.get("/")
-def read_root():
-    return {"message": "Hello, World!"}
-
-@app.get("/teste")
-def teste():
-    return {"message": "Hello, World!!!!!!!!"}
+app.include_router(user_router.router, prefix="/usuarios", tags=["Usuarios"])
+app.include_router(movimentacao_router.router, prefix="/movimentacao", tags=["Movimentações"])
