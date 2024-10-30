@@ -1,16 +1,16 @@
 from sqlalchemy.orm import Session
-from models import MetasFinanceiras
-from schemas.metas_financeiras_schema import MetasFinanceirasCreate
+from ..models import models
+from ..schemas.metas_financeiras_schema import MetasFinanceirasCreate
 
 def create_meta(db: Session, meta: MetasFinanceirasCreate):
-    db_meta = MetasFinanceiras(**meta.dict())
+    db_meta = models.MetasFinanceiras(**meta.dict())
     db.add(db_meta)
     db.commit()
     db.refresh(db_meta)
     return db_meta
 
 def get_meta(db: Session, meta_id: int):
-    return db.query(MetasFinanceiras).filter(MetasFinanceiras.id == meta_id).first()
+    return db.query(models.MetasFinanceiras).filter(models.MetasFinanceiras.id == meta_id).first()
 
 def update_meta(db: Session, meta_id: int, meta: MetasFinanceirasCreate):
     db_meta = get_meta(db, meta_id)

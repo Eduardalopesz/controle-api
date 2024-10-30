@@ -1,10 +1,18 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from database import get_db
-from schemas.investimentos_schema import Investimentos, InvestimentosCreate
-from repositories import investimentos as investimentos_repo
+from ..database import Sessionlocal
+from ..schemas.investimentos_schema import Investimentos, InvestimentosCreate
+from ..repositories import investimentos_repository as investimentos_repo
 
 router = APIRouter()
+
+def get_db():
+    db_session = Sessionlocal()
+    try:
+        yield db_session
+    finally:
+        db_session.close()
+
 
 @router.post("/investimentos/", response_model=Investimentos)
 def create_investimento(investimento: InvestimentosCreate, db: Session = Depends(get_db)):

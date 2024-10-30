@@ -1,10 +1,17 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from database import get_db
-from schemas.metas_financeiras_schema import MetasFinanceiras, MetasFinanceirasCreate
-from repositories import metas_financeiras as metas_repo
+from ..database import Sessionlocal
+from ..schemas.metas_financeiras_schema import MetasFinanceiras, MetasFinanceirasCreate
+from ..repositories import metas_financeiras_repository as metas_repo
 
 router = APIRouter()
+
+def get_db():
+    db_session = Sessionlocal()
+    try:
+        yield db_session
+    finally:
+        db_session.close()
 
 @router.post("/metas_financeiras/", response_model=MetasFinanceiras)
 def create_meta(meta: MetasFinanceirasCreate, db: Session = Depends(get_db)):

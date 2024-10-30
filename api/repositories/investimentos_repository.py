@@ -1,16 +1,16 @@
 from sqlalchemy.orm import Session
-from models import Investimentos
-from schemas.investimentos_schema import InvestimentosCreate
+from ..models import models
+from ..schemas.investimentos_schema import InvestimentosCreate
 
 def create_investimento(db: Session, investimento: InvestimentosCreate):
-    db_investimento = Investimentos(**investimento.dict())
+    db_investimento = models.Investimentos(**investimento.dict())
     db.add(db_investimento)
     db.commit()
     db.refresh(db_investimento)
     return db_investimento
 
 def get_investimento(db: Session, investimento_id: int):
-    return db.query(Investimentos).filter(Investimentos.id == investimento_id).first()
+    return db.query(models.Investimentos).filter(models.Investimentos.id == investimento_id).first()
 
 def update_investimento(db: Session, investimento_id: int, investimento: InvestimentosCreate):
     db_investimento = get_investimento(db, investimento_id)

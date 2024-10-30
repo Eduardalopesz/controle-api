@@ -5,7 +5,6 @@ from sqlalchemy import select, desc
 from sqlalchemy.orm import Session
 from api.schemas.balanco_mensal_schema import BalancoMensalSchema
 from ..models import models
-from ..schemas.balanco_mensal_schema import BalancoMensalRetornoSchema
 
 def listar_balancos(db: Session, usuario_id: int, pagina: int = 1, registros: int = 3):
     skip = (pagina - 1) * registros
@@ -33,7 +32,7 @@ def criar_balanco(balanco: BalancoMensalSchema, db: Session):
     db.commit()
     db.refresh(db_balanco)
 
-    return BalancoMensalRetornoSchema(
+    return BalancoMensalSchema(
         id=db_balanco.id,
         usuario_id=db_balanco.usuario_id,
         mes_referencia=db_balanco.mes_referencia,
@@ -60,7 +59,7 @@ def atualizar_balanco(id: int, balanco: BalancoMensalSchema, db: Session):
     db.commit()
     db.refresh(db_balanco)
 
-    return BalancoMensalRetornoSchema(
+    return BalancoMensalSchema(
         id=db_balanco.id,
         usuario_id=db_balanco.usuario_id,
         mes_referencia=db_balanco.mes_referencia,

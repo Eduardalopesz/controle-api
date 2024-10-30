@@ -1,14 +1,15 @@
 from pydantic import BaseModel
 
 class TipoMovimentacaoBase(BaseModel):
-    codigo: str
-    descricao: str
+    Codigo: str
+    Descricao: str
+    Id: int
 
 class TipoMovimentacaoCreate(TipoMovimentacaoBase):
     pass
 
 class TipoMovimentacao(TipoMovimentacaoBase):
-    id: int
+    Id: int
 
     class Config:
         orm_mode = True
