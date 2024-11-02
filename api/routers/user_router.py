@@ -4,6 +4,7 @@ from ..database import Sessionlocal
 from sqlalchemy.orm import Session
 from ..repositories import user_repository
 from ..schemas.users import user_retorno_schema
+from api.schemas.users.login_schema import LoginSchema
 
 router = APIRouter()
 
@@ -31,3 +32,7 @@ def criar_usuario(id: int, usuario: UsuarioAtualizacaoSchema, db: Session = Depe
 @router.delete("/remover/{id}")
 def deletar_usuario(id: int, db: Session = Depends(get_db)):
     return user_repository.deletar_usuario(id, db)
+
+@router.post("/login")
+def login(login: LoginSchema, db: Session = Depends(get_db)):
+    return user_repository.verificar_login(login.CPF, login.Senha, db)

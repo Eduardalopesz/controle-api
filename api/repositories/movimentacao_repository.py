@@ -1,9 +1,26 @@
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 from ..schemas.movimentacao import movimentacao_retorno_schema
-
+from ..schemas.movimentacao import movimentacao_requisicao_schema
 from api.models import models
+from datetime import datetime 
 
+def criar_movimentacao(movimentacao: movimentacao_requisicao_schema, db: Session):
+    nova_movimentacao = models.Movimentacao(
+        UsuarioId=movimentacao.UsuarioId,
+        Categoria=movimentacao.Categoria,
+        Valor=movimentacao.Valor,
+        TipoMovimentacaoId=movimentacao.TipoMovimentacaoId,
+        DataMovimentacao=movimentacao.DataMovimentacao,
+        Descricao=movimentacao.Descricao,
+        DataCriacao=datetime.now()
+    )
+
+    db.add(nova_movimentacao)
+    db.commit()
+    db.refresh(nova_movimentacao)
+
+    return nova_movimentacao
 
 def listar_movimentacao_usuario(id: int, db: Session):
 

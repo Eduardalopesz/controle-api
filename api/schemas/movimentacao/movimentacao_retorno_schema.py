@@ -38,5 +38,5 @@ class MovimentacaoRetornoSchema(BaseModel):
     DataAtualizacao: datetime | None
 
     class Config():
-        orm_mode = True
+        from_attributes = True
         arbitrary_types_allowed=True
