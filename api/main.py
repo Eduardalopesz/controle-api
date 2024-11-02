@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from api.routers import balanco_mensal_router, investimentos_router, metas_financeiras_router, orcamento_mensal_router, tipo_movimentacao_router, user_router, movimentacao_router
+from auth import router as auth_router
 
 app = FastAPI()
 
