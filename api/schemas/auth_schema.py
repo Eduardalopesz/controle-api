@@ -1,7 +1,7 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 
 class AuthSchema(BaseModel):
-    email: str
+    email: EmailStr
     senha: str
 
 class AuthRetornoSchema(BaseModel):

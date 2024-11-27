@@ -1,14 +1,19 @@
-from fastapi import Depends
 from sqlalchemy.orm import Session
-from database import get_db
-from models.user import User
-from schemas.auth_schema import AuthRetornoSchema
+from sqlalchemy import literal
+from models import Usuario
+from ..schemas.auth_schema import AuthRetornoSchema
 
-def autenticar_usuario(email: str, senha: str, db: Session = Depends(get_db)):
+def autenticar_usuario(db: Session, email: str, senha: str) -> AuthRetornoSchema | None:
 
-    senha_varbinary = senha.encode("utf-8")
+    senha_criptografada = db.execute(
+        literal(f"CONVERT(VARBINARY(MAX), '{senha}')")
+    ).scalar()
     
-    usuario = db.query(User).filter(User.email == email, User.senha == senha_varbinary).first()
+
+    usuario = db.query(Usuario).filter(
+        Usuario.email == email,
+        Usuario.senha == senha_criptografada
+    ).first()
     
     if usuario:
         return AuthRetornoSchema(logado=True, id=usuario.id)

@@ -1,6 +1,6 @@
 from fastapi import FastAPI
-from api.routers import balanco_mensal_router, investimentos_router, metas_financeiras_router, orcamento_mensal_router, tipo_movimentacao_router, user_router, movimentacao_router,auth_router
-
+from api.routers import balanco_mensal_router, investimentos_router, metas_financeiras_router, orcamento_mensal_router, tipo_movimentacao_router, user_router, movimentacao_router
+from routers.auth_router import auth_router
 app = FastAPI()
 
 app.include_router(user_router.router, prefix="/usuarios", tags=["Usuarios"])
@@ -10,4 +10,4 @@ app.include_router(metas_financeiras_router.router, prefix="/metas", tags=["Meta
 app.include_router(orcamento_mensal_router.router, prefix="/orcamentos", tags=["Orçamento mensal"])
 app.include_router(tipo_movimentacao_router.router, prefix="/tipo", tags=["Tipo movimentação"])
 app.include_router(balanco_mensal_router.router, prefix="/balanco", tags=["Balanço mensal"])
-app.include_router(auth_router, prefix="/auth", tags=["Autenticação"])
+app.include_router(auth_router, prefix="/api/v1", tags=["Autenticação"])
